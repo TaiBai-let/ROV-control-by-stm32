@@ -2,4 +2,4 @@
 Design ideas:
              STM32 output PWM to control motor motor  by electric regulation
         and  Mpu6050 is used to obtain the attitude
-             use PID algorithm to adjust ROV drivingc
+             use PID algorithm to adjust ROV driving
