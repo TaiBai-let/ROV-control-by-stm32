@@ -1,3 +1,25 @@
+/*
+ *                             _ooOoo_
+ *                            o8888888o
+ *                            88" . "88
+ *                            (| -_- |)
+ *                            O\  =  /O
+ *                         ____/`---'\____
+ *                       .'  \\|     |//  `.
+ *                      /  \\|||  :  |||//  \
+ *                     /  _||||| -:- |||||-  \
+ *                     |   | \\\  -  /// |   |
+ *                     | \_|  ''\---/''  |   |
+ *                     \  .-\__  `-`  ___/-. /
+ *                   ___`. .'  /--.--\  `. . __
+ *                ."" '<  `.___\_<|>_/___.'  >'"".
+ *               | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *               \  \ `-.   \_ __\ /__ _/   .-` /  /
+ *          ======`-.____`-.___\_____/___.-`____.-'======
+ *                             `=---='
+ *          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ *                    佛祖保佑        BUG消失
+*/
 #include "stdio.h"
 #include "math.h"
 #include "stdlib.h"
@@ -179,3 +201,62 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 	}
 }
 	
+
+
+////机械臂的控制
+// TIM1_Init(); //初始化TIM1
+// int MAmode=1;
+
+
+//	int delay_time;
+//	delay_init(); 
+//	TIM_Init();
+//	delay_time = 500;
+
+//   //机械臂回到中间
+//    TIM_SetCompare1(TIM1,1500);
+//		delay_ms(delay_time);
+
+//   switch(MAmode)
+//	{
+//		 case(1):{
+//		TIM_SetCompare1(TIM1, 1625);
+//    delay_ms(delay_time);
+//		 } break;
+
+//		 case(2):{
+//		TIM_SetCompare1(TIM1, 1750);
+//    delay_ms(delay_time);
+//		 } break;
+
+//		 case(3):{
+//		TIM_SetCompare1(TIM1, 1875);
+//    delay_ms(delay_time);
+//		 } break;
+
+//		 case(4):{
+//		TIM_SetCompare1(TIM1, 2000);
+//    delay_ms(delay_time);
+//		 } break;
+
+//		 	case(5):{
+//		TIM_SetCompare1(TIM1, 1375);
+//    delay_ms(delay_time);
+//		 } break;
+
+//		 case(6):{
+//		TIM_SetCompare1(TIM1, 1250);
+//    delay_ms(delay_time);
+//		 } break;
+
+//		 case(7):{
+//		TIM_SetCompare1(TIM1, 1125);
+//    delay_ms(delay_time);
+//		 } break;
+
+//		 case(8):{
+//		TIM_SetCompare1(TIM1, 1000);
+//    delay_ms(delay_time);
+//		 } break;
+//	}
+
