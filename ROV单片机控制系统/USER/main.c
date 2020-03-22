@@ -198,204 +198,204 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 /*                               机械臂的控制                              */	
 
  TIM1_Init();    //初始化TIM1
- int MAmode_op=0;   //设置舵机档位 开
- int MAmode_cs=0;   //设置舵机档位 合
- int reset=0;
- int control1=reset;
- int control2=reset;
- int delay_time; 
- delay_time = 500;
+
+ static int MAmode=5;  //记录此时机械臂舵机所在位置
+ int reset=0;          //定义按键未按下的状态
+ int control1=reset;   //加紧按键 未按下
+ int control2=reset;   //松开按键 未按下
 				
-    //机械臂回到中间
-    TIM_SetCompare1(TIM1,1500);
-		delay_ms(delay_time);
-
-		if(control1!=reset)
-{
-			MAmode_op++;
- 	while(MAmode_op!=0)   //判断是否开启了机械臂的使用
- {
-   switch(MAmode_op)
+	if(control1!=reset&&MAmode!=9)    //判断是否为 加紧控制
+{  MAmode++; }                                                 //且在最大最小状态时，不进一步控制
+ else if(control2!=reset&&MAmode!=1)  //判断是否为 松开控制
+{  MAmode--; }          
+ 
+   switch(MAmode)
 	{
-		 case(1):{
-		TIM_SetCompare1(TIM1, 1625);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(2):{
-		TIM_SetCompare1(TIM1, 1750);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(3):{
-		TIM_SetCompare1(TIM1, 1875);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(4):{
-		TIM_SetCompare1(TIM1, 2000);
-    delay_ms(delay_time);
-		 } break;
-		 
-		 default:  break;
-	}
- }
-}
-	
-		if(control2!=reset){
-			MAmode_cs++;}
-		while(MAmode_cs!=reset)
- {				
-	switch(MAmode_cs)
-	{	
-		case(1):{
-		TIM_SetCompare1(TIM1, 1375);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(2):{
-		TIM_SetCompare1(TIM1, 1250);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(3):{
-		TIM_SetCompare1(TIM1, 1125);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(4):{
+			case(1):
+		{
 		TIM_SetCompare1(TIM1, 1000);
-    delay_ms(delay_time);
-		 } break;
+    delay_ms(500);
+		 }   break;
+				 
+		 	case(2):
+		{
+		TIM_SetCompare1(TIM1, 1125);
+    delay_ms(500);
+		 }   break;
+				 
+		 	case(3):
+		{
+		TIM_SetCompare1(TIM1, 1250);
+    delay_ms(500);
+		 }   break;
+				 
+		 case(4):
+		{
+		TIM_SetCompare1(TIM1, 1375);
+    delay_ms(500);
+		 }   break;
+
+		 case(5):
+		{
+		TIM_SetCompare1(TIM1, 1500);  //初始状态下，为1500即为回到中间
+    delay_ms(500);
+		 }   break;
 		 
-		 default:  break;
-	 }
- }
-}
+		 case(6):
+		{
+		TIM_SetCompare1(TIM1, 1625);
+    delay_ms(500);
+		 }   break;
 
-/***************************************************************************/		
-/*                               云台的控制                               */	
- TIM1_Init();     //初始化TIM1
- int HDmode_up=0;     //设置与云台档位  上升
- int HDmode_down=0;   //设置与云台档位  下降
- int reset=0;
- int control3=reset;
- int control4=reset;
- int delay_time; 
- delay_time = 100;
-				
-    //机械臂回到中间
-    TIM_SetCompare2(TIM1,1500);
-		delay_ms(delay_time);
+		 case(7):
+		{
+		TIM_SetCompare1(TIM1, 1750);
+    delay_ms(500);
+		 }   break;
 
-		if(control3!=reset)
-{
-			HDmode_up++;
- 	while(HDmode_up!=0)   
- {
-   switch(HDmode_up)
-	{
-		 case(1):{
-		TIM_SetCompare2(TIM1, 1560);
-    delay_ms(delay_time);
-		 } break;
+		 case(8):
+		{
+		TIM_SetCompare1(TIM1, 1875);
+    delay_ms(500);
+		 }   break;
 
-		 case(2):{
-		TIM_SetCompare2(TIM1, 1620);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(3):{
-		TIM_SetCompare2(TIM1, 1680);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(4):{
-		TIM_SetCompare2(TIM1, 1740);
-    delay_ms(delay_time);
-		 } break;
-		 
-		 case(5):{
-		TIM_SetCompare2(TIM1, 1800);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(6):{
-		TIM_SetCompare2(TIM1, 1860);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(7):{
-		TIM_SetCompare2(TIM1, 1920);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(8):{
-		TIM_SetCompare2(TIM1, 1980);
-    delay_ms(delay_time);
-		 } break;
+		 case(9):
+		{
+		TIM_SetCompare1(TIM1, 2000);
+    delay_ms(500);
+		 }   break;
 		 
 		 default:  break;
 	}
- }
-}
+
+
 	
-		if(control4!=reset)
-{
-			HDmode_down++;
-		while(HDmode_down!=reset)
- {				
-	switch(HDmode_down)
-	{	
-		case(1):{
-		TIM_SetCompare2(TIM1, 1440);
-    delay_ms(delay_time);
-		 } break;
+/***************************************************************************/		
+/*                               云台的控制                                */	
+	
+ TIM1_Init();     //初始化TIM1
+ 
+ static int HDmode=9;  //记录此时云台舵机所在位置
+ int control3=reset;   //抬升按键 未按下
+ int control4=reset;   //下降按键 未按下
 
-		 case(2):{
-		TIM_SetCompare2(TIM1, 1380);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(3):{
-		TIM_SetCompare2(TIM1, 1320);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(4):{
-		TIM_SetCompare2(TIM1, 1260);
-    delay_ms(delay_time);
-		 } break;
-		 
-		 case(5):{
-		TIM_SetCompare2(TIM1, 1200);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(6):{
-		TIM_SetCompare2(TIM1, 1140);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(7):{
-		TIM_SetCompare2(TIM1, 1080);
-    delay_ms(delay_time);
-		 } break;
-
-		 case(8):{
+	if(control3!=reset&&HDmode!=17)    //判断是否为 抬升控制
+{  HDmode++; }                                                 //且在最大最小状态时，不进一步控制
+ else if(control4!=reset&&HDmode!=1)  //判断是否为 下降控制
+{  HDmode--; }          
+ 
+   switch(HDmode)
+	{
+			case(1):
+		{
 		TIM_SetCompare2(TIM1, 1020);
-    delay_ms(delay_time);
-		 } break;
+    delay_ms(300);
+		 }   break;
+				 
+		 	case(2):
+		{
+		TIM_SetCompare2(TIM1, 1080);
+    delay_ms(300);
+		 }   break;
+				 
+		 	case(3):
+		{
+		TIM_SetCompare2(TIM1, 1140);
+    delay_ms(300);
+		 }   break;
+				 
+		 case(4):
+		{
+		TIM_SetCompare2(TIM1, 1200);
+    delay_ms(300);
+		 }   break;
+
+		 case(5):
+		{
+		TIM_SetCompare2(TIM1, 1260);
+    delay_ms(300);
+		 }   break;
+		 
+		 case(6):
+		{
+		TIM_SetCompare2(TIM1, 1320);
+    delay_ms(300);
+		 }   break;
+
+		 case(7):
+		{
+		TIM_SetCompare2(TIM1, 1380);
+    delay_ms(300);
+		 }   break;
+
+		 case(8):
+		{
+		TIM_SetCompare2(TIM1, 1440);
+    delay_ms(300);
+		 }   break;
+
+		 case(9):
+		{
+		TIM_SetCompare2(TIM1, 1500);
+    delay_ms(300);
+		 }   break;
+		 
+		 case(10):
+		{
+		TIM_SetCompare2(TIM1, 1560);
+    delay_ms(300);
+		 }   break;
+				 
+		 	case(11):
+		{
+		TIM_SetCompare2(TIM1, 1620);
+    delay_ms(300);
+		 }   break;
+				 
+		 	case(12):
+		{
+		TIM_SetCompare2(TIM1, 1680);
+    delay_ms(300);
+		 }   break;
+				 
+		 case(13):
+		{
+		TIM_SetCompare2(TIM1, 1740);
+    delay_ms(300);
+		 }   break;
+
+		 case(14):
+		{
+		TIM_SetCompare2(TIM1, 1800);
+    delay_ms(300);
+		 }   break;
+		 
+		 case(15):
+		{
+		TIM_SetCompare2(TIM1, 1860);
+    delay_ms(300);
+		 }   break;
+
+		 case(16):
+		{
+		TIM_SetCompare2(TIM1, 1920);
+    delay_ms(300);
+		 }   break;
+
+		 case(17):
+		{
+		TIM_SetCompare2(TIM1, 1980);
+    delay_ms(300);
+		 }   break;
 		 default:  break;
-	 }
- }
-}
+	}
 
 
 	/***************************************************************************/
 	/*                          抗饱和pid算法                                  */	
 	ROVmode=1;
 	ROV_Control();          //控制函数		
+ }
 }
 
 	
