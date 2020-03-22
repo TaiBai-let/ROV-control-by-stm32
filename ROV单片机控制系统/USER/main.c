@@ -18,7 +18,7 @@
  *          ======`-.____`-.___\_____/___.-`____.-'======
  *                             `=---='
  *          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- *                    佛祖保佑        BUG消失
+ *                    佛祖保佑        一切如愿
 */
 #include "stdio.h"
 #include "math.h"
@@ -198,18 +198,24 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 /*                               机械臂的控制                              */	
 
  TIM1_Init();    //初始化TIM1
- int MAmode=1;   //设置舵机档位
- int MAsign=0;   //设置标志，标志是否启动舵机 
+ int MAmode_op=0;   //设置舵机档位 开
+ int MAmode_cs=0;   //设置舵机档位 合
+ int reset=0;
+ int control1=reset;
+ int control2=reset;
  int delay_time; 
  delay_time = 500;
-
+				
     //机械臂回到中间
     TIM_SetCompare1(TIM1,1500);
 		delay_ms(delay_time);
 
-	while(MAsign==1)   //判断是否开启了机械臂的使用
+		if(control1!=reset)
 {
-   switch(MAmode)
+			MAmode_op++;
+ 	while(MAmode_op!=0)   //判断是否开启了机械臂的使用
+ {
+   switch(MAmode_op)
 	{
 		 case(1):{
 		TIM_SetCompare1(TIM1, 1625);
@@ -230,50 +236,166 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 		TIM_SetCompare1(TIM1, 2000);
     delay_ms(delay_time);
 		 } break;
-
-		 	case(5):{
+		 
+		 default:  break;
+	}
+ }
+}
+	
+		if(control2!=reset){
+			MAmode_cs++;}
+		while(MAmode_cs!=reset)
+ {				
+	switch(MAmode_cs)
+	{	
+		case(1):{
 		TIM_SetCompare1(TIM1, 1375);
     delay_ms(delay_time);
 		 } break;
 
-		 case(6):{
+		 case(2):{
 		TIM_SetCompare1(TIM1, 1250);
     delay_ms(delay_time);
 		 } break;
 
-		 case(7):{
+		 case(3):{
 		TIM_SetCompare1(TIM1, 1125);
     delay_ms(delay_time);
 		 } break;
 
-		 case(8):{
+		 case(4):{
 		TIM_SetCompare1(TIM1, 1000);
     delay_ms(delay_time);
 		 } break;
 		 
 		 default:  break;
-	}
+	 }
+ }
 }
 
 /***************************************************************************/		
 /*                               云台的控制                               */	
- TIM1_Init();    //初始化TIM1
- int HDmode=1;   //设置与云台档位
- int HDsign=0;   //设置标志，标志是否启动舵机 
+ TIM1_Init();     //初始化TIM1
+ int HDmode_up=0;     //设置与云台档位  上升
+ int HDmode_down=0;   //设置与云台档位  下降
+ int reset=0;
+ int control3=reset;
+ int control4=reset;
+ int delay_time; 
+ delay_time = 100;
+				
+    //机械臂回到中间
+    TIM_SetCompare2(TIM1,1500);
+		delay_ms(delay_time);
 
- //回正
- TIM_SetCompare2(TIM1,1500);
- delay_ms(500);
- 
+		if(control3!=reset)
+{
+			HDmode_up++;
+ 	while(HDmode_up!=0)   
+ {
+   switch(HDmode_up)
+	{
+		 case(1):{
+		TIM_SetCompare2(TIM1, 1560);
+    delay_ms(delay_time);
+		 } break;
 
+		 case(2):{
+		TIM_SetCompare2(TIM1, 1620);
+    delay_ms(delay_time);
+		 } break;
 
+		 case(3):{
+		TIM_SetCompare2(TIM1, 1680);
+    delay_ms(delay_time);
+		 } break;
 
+		 case(4):{
+		TIM_SetCompare2(TIM1, 1740);
+    delay_ms(delay_time);
+		 } break;
+		 
+		 case(5):{
+		TIM_SetCompare2(TIM1, 1800);
+    delay_ms(delay_time);
+		 } break;
+
+		 case(6):{
+		TIM_SetCompare2(TIM1, 1860);
+    delay_ms(delay_time);
+		 } break;
+
+		 case(7):{
+		TIM_SetCompare2(TIM1, 1920);
+    delay_ms(delay_time);
+		 } break;
+
+		 case(8):{
+		TIM_SetCompare2(TIM1, 1980);
+    delay_ms(delay_time);
+		 } break;
+		 
+		 default:  break;
+	}
+ }
+}
+	
+		if(control4!=reset)
+{
+			HDmode_down++;
+		while(HDmode_down!=reset)
+ {				
+	switch(HDmode_down)
+	{	
+		case(1):{
+		TIM_SetCompare2(TIM1, 1440);
+    delay_ms(delay_time);
+		 } break;
+
+		 case(2):{
+		TIM_SetCompare2(TIM1, 1380);
+    delay_ms(delay_time);
+		 } break;
+
+		 case(3):{
+		TIM_SetCompare2(TIM1, 1320);
+    delay_ms(delay_time);
+		 } break;
+
+		 case(4):{
+		TIM_SetCompare2(TIM1, 1260);
+    delay_ms(delay_time);
+		 } break;
+		 
+		 case(5):{
+		TIM_SetCompare2(TIM1, 1200);
+    delay_ms(delay_time);
+		 } break;
+
+		 case(6):{
+		TIM_SetCompare2(TIM1, 1140);
+    delay_ms(delay_time);
+		 } break;
+
+		 case(7):{
+		TIM_SetCompare2(TIM1, 1080);
+    delay_ms(delay_time);
+		 } break;
+
+		 case(8):{
+		TIM_SetCompare2(TIM1, 1020);
+    delay_ms(delay_time);
+		 } break;
+		 default:  break;
+	 }
+ }
+}
 
 
 	/***************************************************************************/
 	/*                          抗饱和pid算法                                  */	
 	ROVmode=1;
 	ROV_Control();          //控制函数		
-	}
 }
+
 	
