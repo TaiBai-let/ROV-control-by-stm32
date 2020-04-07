@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\HARDWARE\TIMER;..\HARDWARE\LCD;..\USMART;..\HARDWARE\MPU6050\eMPL;..\HARDWARE\MPU6050;..\DRIVER\PID;..\DRIVER\CONTROL</IncludePath>
+              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\HARDWARE\TIMER;..\HARDWARE\LCD;..\USMART;..\HARDWARE\MPU6050\eMPL;..\HARDWARE\MPU6050;..\DRIVER\PID;..\DRIVER\CONTROL;..\DRIVER\COMPUTER</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -582,6 +582,11 @@
               <FileName>control.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVER\CONTROL\control.c</FilePath>
+            </File>
+            <File>
+              <FileName>computer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\DRIVER\COMPUTER\computer.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -110,8 +110,8 @@ float PID_realize_roll(float angle_roll)
     }
     pid_roll.control=pid_roll.Kp*pid_roll.err+index*pid_roll.Ki*pid_roll.integral+pid_roll.Kd*(pid_roll.err-pid_roll.err_last);
     pid_roll.err_last=pid_roll.err;
-    pid_roll.Actualangle=pid_roll.control*1.0;
-    return pid_roll.Actualangle;
+    pid_roll.control=pid_roll.control*1.0;
+    return pid_roll.control;
 }
 
 
@@ -156,8 +156,8 @@ float PID_realize_pitch(float angle_pitch)
     }
     pid_pitch.control=pid_pitch.Kp*pid_pitch.err+index*pid_pitch.Ki*pid_pitch.integral+pid_pitch.Kd*(pid_pitch.err-pid_pitch.err_last);
     pid_pitch.err_last=pid_pitch.err;
-    pid_pitch.Actualangle=pid_pitch.control*1.0;
-    return pid_pitch.Actualangle;
+    pid_pitch.control=pid_pitch.control*1.0;
+    return pid_pitch.control;
 }
 
 
@@ -202,8 +202,8 @@ float PID_realize_yaw(float angle_yaw)
     }
     pid_yaw.control=pid_yaw.Kp*pid_yaw.err+index*pid_yaw.Ki*pid_yaw.integral+pid_yaw.Kd*(pid_yaw.err-pid_yaw.err_last);
     pid_yaw.err_last=pid_yaw.err;
-    pid_yaw.Actualangle=pid_yaw.control*1.0;
-    return pid_yaw.Actualangle;
+    pid_yaw.control=pid_yaw.control*1.0;
+    return pid_yaw.control;
 }
 
 

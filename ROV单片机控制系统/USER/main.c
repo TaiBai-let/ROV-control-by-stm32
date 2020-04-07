@@ -37,10 +37,8 @@
 #include "inv_mpu.h"
 #include "inv_mpu_dmp_motion_driver.h" 
  
-
-int ROVmode; 
-float pitch,roll,yaw; 		//欧拉角
-	
+  int ROVmode; 
+  float pitch,roll,yaw; 		//欧拉角
 /***************************************************************************/
 /*                              MPU6050姿态解算                            */	
 void usart1_send_char(u8 c);
@@ -52,9 +50,19 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 //MPU6050姿态解算传并给上位机
  int main(void)
  {	
-	 
+  #define reset 0       //定义按键未按下的状态
+  static int MAmode=5;  //记录此时机械臂舵机所在位置
+  static int HDmode=9;  //记录此时云台舵机所在位置
+	int control1=reset;   //加紧按键 未按下
+  int control2=reset;   //松开按键 未按下
+  int control3=reset;   //抬升按键 未按下
+  int control4=reset;   //下降按键 未按下
 	PID_init();
+	TIM1_Init();    //初始化TIM1
+	
 	 
+	/***************************************************************************/
+	/*                              姿态解算初始化                             */ 	
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	 //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	uart_init(500000);	 	//串口初始化为500000
 	delay_init();	//延时初始化 
@@ -111,6 +119,8 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 	//TIM7用于定时采集数据进行pid算法
 	time7_init(71,9999);//每10ms采集pid进行一次计算
   NVIC_INIT();
+	
+	
 	/***************************************************************************/	
 	/*                               主控函数                                  */
 	
@@ -121,13 +131,12 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 	short aacx,aacy,aacz;		//加速度传感器原始数据
 	short gyrox,gyroy,gyroz;	//陀螺仪原始数据
 	short temp;					//温度	
-	
-	
+		
 	//设置比例系数
 	PIDSetKp(12,12,12);
 	PIDSetKi(2,2,2);
 	PIDSetKd(2,2,2);
-		
+
 	while(mpu_dmp_init())
  	{
 		LCD_ShowString(30,130,200,16,16,"MPU6050 Error");
@@ -197,16 +206,10 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 /***************************************************************************/		
 /*                               机械臂的控制                              */	
 
- TIM1_Init();    //初始化TIM1
-
- static int MAmode=5;  //记录此时机械臂舵机所在位置
- int reset=0;          //定义按键未按下的状态
- int control1=reset;   //加紧按键 未按下
- int control2=reset;   //松开按键 未按下
 				
-	if(control1!=reset&&MAmode!=9)    //判断是否为 加紧控制
+	if((control1!=reset)&&(MAmode!=9))    //判断是否为 加紧控制
 {  MAmode++; }                                                 //且在最大最小状态时，不进一步控制
- else if(control2!=reset&&MAmode!=1)  //判断是否为 松开控制
+ else if((control2!=reset)&&(MAmode!=1))  //判断是否为 松开控制
 {  MAmode--; }          
  
    switch(MAmode)
@@ -272,16 +275,10 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
 	
 /***************************************************************************/		
 /*                               云台的控制                                */	
-	
- TIM1_Init();     //初始化TIM1
- 
- static int HDmode=9;  //记录此时云台舵机所在位置
- int control3=reset;   //抬升按键 未按下
- int control4=reset;   //下降按键 未按下
 
-	if(control3!=reset&&HDmode!=17)    //判断是否为 抬升控制
+	if((control3!=reset)&&(HDmode!=17))    //判断是否为 抬升控制
 {  HDmode++; }                                                 //且在最大最小状态时，不进一步控制
- else if(control4!=reset&&HDmode!=1)  //判断是否为 下降控制
+ else if((control4!=reset)&&(HDmode!=1))  //判断是否为 下降控制
 {  HDmode--; }          
  
    switch(HDmode)
@@ -398,4 +395,4 @@ void usart1_report_imu(short aacx,short aacy,short aacz,short gyrox,short gyroy,
  }
 }
 
-	
+

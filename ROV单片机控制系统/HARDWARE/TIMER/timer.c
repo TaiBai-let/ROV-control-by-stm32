@@ -4,6 +4,8 @@
 #include "pid.h"
 #include "mpu6050.h"
 
+extern float pitch,roll,yaw; 		//欧拉角
+
 //通用定时器3中断初始化
 //这里时钟选择为APB1的2倍，而APB1为36M
 //arr：自动重装值。
